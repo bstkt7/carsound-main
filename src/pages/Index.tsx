@@ -75,15 +75,7 @@ const Index = () => {
             </div>
           </div>
 
-          {/* MOBILE HERO */}
-          <div className="lg:hidden text-center mt-4">
-            <h1 className="text-3xl font-black uppercase leading-tight">
-              Автозвук<br />и комфорт
-            </h1>
-            <p className="mt-3 text-black/80 font-medium">
-              Установка • Настройка • Гарантия
-            </p>
-          </div>
+
 
           {/* SERVICES DESKTOP */}
           <div className="hidden lg:flex flex-1 items-center">
@@ -123,7 +115,7 @@ const Index = () => {
       </section>
 
       {/* BRANDS */}
-      <section className="bg-black py-5 relative z-20">
+      <section className="bg-black py-5 lg:py-6 relative z-40 mb-28 lg:mb-0">
         <div className="overflow-hidden">
           <div className="flex animate-marquee">
             {[...BRAND_LOGOS, ...BRAND_LOGOS].map((brand, i) => (
