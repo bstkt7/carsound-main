@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { FileDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { FileDown, FileSpreadsheet, ChevronLeft, ChevronRight } from "lucide-react";
+import * as XLSX from "xlsx";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import FileUploader from "@/components/FileUploader";
 import ItemEditor from "@/components/ItemEditor";
 import PriceTagGrid from "@/components/PriceTagGrid";
+import ExportDialog from "@/components/ExportDialog";
 import { generatePdf } from "@/lib/generatePdf";
 import type { PriceTagItem, PriceTagSettings } from "@/types/PriceTag";
 
@@ -25,18 +27,36 @@ const Index = () => {
   const [page, setPage] = useState(0);
   const [settings, setSettings] = useState<PriceTagSettings>(DEFAULT_SETTINGS);
   const [generating, setGenerating] = useState(false);
+  const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("price-tag-items");
+    if (saved) {
+      try {
+        setItems(JSON.parse(saved));
+      } catch (e) {
+        console.error("Failed to load saved items", e);
+      }
+    }
+  }, []);
+
+  // Save to localStorage whenever items change
+  useEffect(() => {
+    localStorage.setItem("price-tag-items", JSON.stringify(items));
+  }, [items]);
 
   // Calculate how many tags can fit per row and column based on fixed size and available space
   const availableWidth = 297 - (settings.margin * 2); // A4 width minus margins
   const availableHeight = 210 - (settings.margin * 2); // A4 height minus margins
-  
+
   // Calculate max possible columns and rows based on fixed tag size and gap
   const maxCols = Math.floor(availableWidth / (60 + settings.gap));
   const maxRows = Math.floor(availableHeight / (40 + settings.gap));
-  
+
   // Calculate the maximum number of tags that can physically fit
   const effectiveTagsPerSheet = maxCols * maxRows;
-  
+
   const totalPages = Math.max(1, Math.ceil(items.length / effectiveTagsPerSheet));
 
   const handleDataLoaded = (newItems: PriceTagItem[]) => {
@@ -51,11 +71,48 @@ const Index = () => {
     }));
   };
 
-  const handleExport = async () => {
+  const parsePageRange = (range: string, max: number): number[] => {
+    const result: number[] = [];
+    const parts = range.split(',').map(p => p.trim());
+
+    parts.forEach(part => {
+      if (part.includes('-')) {
+        const [start, end] = part.split('-').map(Number);
+        if (!isNaN(start) && !isNaN(end)) {
+          for (let i = Math.max(1, start); i <= Math.min(max, end); i++) {
+            result.push(i - 1); // 0-indexed
+          }
+        }
+      } else {
+        const num = Number(part);
+        if (!isNaN(num) && num >= 1 && num <= max) {
+          result.push(num - 1); // 0-indexed
+        }
+      }
+    });
+
+    return result.length > 0 ? [...new Set(result)].sort((a, b) => a - b) : Array.from({ length: max }, (_, i) => i);
+  };
+
+  const handleExportExcel = () => {
+    const data = items.map(item => ({
+      'Наименование': item.name,
+      'Артикул': item.article,
+      'Цена': item.price
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Ценники");
+    XLSX.writeFile(wb, "ценники.xlsx");
+  };
+
+  const handleExport = async (filename: string, pageRange: string) => {
     setGenerating(true);
     try {
-      const ids = Array.from({ length: totalPages }, (_, i) => `pdf-page-${i}`);
-      await generatePdf(ids);
+      const pageIndices = parsePageRange(pageRange, totalPages);
+      const ids = pageIndices.map(i => `pdf-page-${i}`);
+      await generatePdf(ids, filename);
     } finally {
       setGenerating(false);
     }
@@ -78,7 +135,11 @@ const Index = () => {
         <div className="space-y-4">
           <div className="flex items-center gap-3 flex-wrap">
             <FileUploader onDataLoaded={handleDataLoaded} />
-            <Button onClick={handleExport} disabled={generating} className="gap-2">
+            <Button onClick={handleExportExcel} variant="outline" className="gap-2">
+              <FileSpreadsheet className="h-4 w-4" />
+              Экспорт Excel
+            </Button>
+            <Button onClick={() => setIsExportDialogOpen(true)} disabled={generating} className="gap-2">
               <FileDown className="h-4 w-4" />
               {generating ? "Генерация..." : "Скачать PDF"}
             </Button>
@@ -210,6 +271,13 @@ const Index = () => {
           </div>
         ))}
       </div>
+
+      <ExportDialog
+        isOpen={isExportDialogOpen}
+        onOpenChange={setIsExportDialogOpen}
+        onExport={handleExport}
+        totalPages={totalPages}
+      />
     </div>
   );
 };

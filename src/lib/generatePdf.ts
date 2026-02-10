@@ -1,7 +1,7 @@
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-export async function generatePdf(containerIds: string[]) {
+export async function generatePdf(containerIds: string[], filename: string = "price-tags.pdf") {
   const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
 
   for (let i = 0; i < containerIds.length; i++) {
@@ -22,5 +22,6 @@ export async function generatePdf(containerIds: string[]) {
     doc.addImage(imgData, "PNG", 0, 0, 297, 210);
   }
 
-  doc.save("price-tags.pdf");
+  const finalFilename = filename.endsWith(".pdf") ? filename : `${filename}.pdf`;
+  doc.save(finalFilename);
 }
