@@ -118,6 +118,11 @@ const Index = () => {
                 {s}
               </div>
             ))}
+            <Link to="/price" className="col-span-2">
+              <div className="bg-black text-[#ffcc00] rounded-2xl py-4 text-center font-black uppercase text-sm flex items-center justify-center gap-2">
+                Генератор ценников <Calculator className="h-4 w-4" />
+              </div>
+            </Link>
           </div>
 
           {/* MOBILE CAR */}
