@@ -10,9 +10,6 @@ import { generatePdf } from "@/lib/generatePdf";
 import type { PriceTagItem, PriceTagSettings } from "@/types/PriceTag";
 
 const DEMO_ITEMS: PriceTagItem[] = [
-  { id: "1", name: "Молоко 3.2% 1л", article: "МЛК-001", price: "89" },
-  { id: "2", name: "Хлеб белый нарезной", article: "ХЛБ-042", price: "52" },
-  { id: "3", name: "Сыр Российский 300г", article: "СЫР-105", price: "349" },
 ];
 
 const DEFAULT_SETTINGS: PriceTagSettings = {
