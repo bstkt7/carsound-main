@@ -1,5 +1,6 @@
-import { Phone, MapPin } from "lucide-react";
+import { Phone, MapPin, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const SERVICES = [
   "Шумоизоляция",
@@ -51,14 +52,25 @@ const Index = () => {
           <div className="flex justify-between items-center mb-8">
             <img src="/logo.svg" alt="CarSound" className="h-16 lg:h-28" />
 
-            <a href="tel:89091797555" className="hidden lg:block">
-              <Button
-                size="lg"
-                className="bg-black text-white font-bold px-16 py-7 rounded-full hover:scale-105 transition"
-              >
-                Позвонить
-              </Button>
-            </a>
+            <div className="hidden lg:flex items-center gap-4">
+              <Link to="/price">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-2 border-black bg-transparent text-black font-bold px-8 py-7 rounded-full hover:bg-black hover:text-[#ffcc00] transition"
+                >
+                  Ценники
+                </Button>
+              </Link>
+              <a href="tel:89091797555">
+                <Button
+                  size="lg"
+                  className="bg-black text-white font-bold px-16 py-7 rounded-full hover:scale-105 transition"
+                >
+                  Позвонить
+                </Button>
+              </a>
+            </div>
 
             <div className="hidden lg:flex flex-col text-right gap-2">
               <a
@@ -83,11 +95,16 @@ const Index = () => {
               {SERVICES.map((s) => (
                 <div
                   key={s}
-                  className="text-2xl font-black uppercase hover:opacity-70"
+                  className="text-2xl font-black uppercase hover:opacity-70 cursor-default"
                 >
                   {s}
                 </div>
               ))}
+              <Link to="/price" className="group">
+                <div className="text-2xl font-black uppercase text-black flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                  Ценники <Calculator className="h-6 w-6" />
+                </div>
+              </Link>
             </div>
           </div>
 
