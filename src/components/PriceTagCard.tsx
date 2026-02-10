@@ -43,14 +43,16 @@ const PriceTagCard = ({ item, settings }: PriceTagCardProps) => {
       >
         {item.price ? `${item.price} ₽` : "—"}
       </div>
-      
-      {/* Logo in bottom left corner on lower layer */}
-      <img
-        src="/carsound.png"
-        alt="CarSound Logo"
-        className="absolute bottom-1 left-1 object-contain z-[-1]"
-        style={{ width: '20mm', height: '10mm', maxWidth: '40%', maxHeight: '30%' }}
-      />
+
+      {/* Logo as background watermark - bottom left area */}
+      <div className="absolute bottom-1 left-2 pointer-events-none opacity-20 z-0">
+        <img
+          src="/logo.svg"
+          alt="CarSound Logo"
+          className="object-contain"
+          style={{ width: '25mm', height: '12mm' }}
+        />
+      </div>
     </div>
   );
 };
