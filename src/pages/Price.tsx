@@ -16,9 +16,9 @@ const DEMO_ITEMS: PriceTagItem[] = [
 ];
 
 const DEFAULT_SETTINGS: PriceTagSettings = {
-  nameFontSize: 16,
-  articleFontSize: 12,
-  priceFontSize: 24,
+  nameFontSize: 24,
+  articleFontSize: 14,
+  priceFontSize: 26,
   margin: 2,
   gap: 1,
 };
@@ -184,12 +184,17 @@ const Index = () => {
             </div>
           </div>
 
+          {/* Background container sized like a sheet */}
+          <div
+            className="absolute inset-0 bg-gray-100 z-[-1]"
+            style={{ width: "297mm", height: "210mm", left: "50%", transform: "translateX(-50%)" }}
+          />
           {/* Visible preview of current page */}
           <div
-            className="bg-card border border-border rounded-lg shadow-sm overflow-hidden"
-            style={{ aspectRatio: "297 / 210" }}
+            className="bg-card border border-border rounded-lg shadow-sm overflow-hidden relative"
+            style={{ aspectRatio: "297 / 210", maxWidth: "100%", height: "auto" }}
           >
-            <div className="scale-75 origin-top-left w-[297mm] h-[210mm]">
+            <div className="w-[297mm] h-[210mm]">
               <PriceTagGrid items={items} page={page} settings={settings} />
             </div>
           </div>
