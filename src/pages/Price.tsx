@@ -15,7 +15,7 @@ const DEMO_ITEMS: PriceTagItem[] = [
 ];
 
 const DEFAULT_SETTINGS: PriceTagSettings = {
-  nameFontSize: 24,
+  nameFontSize: 22,
   articleFontSize: 14,
   priceFontSize: 26,
   margin: 2,

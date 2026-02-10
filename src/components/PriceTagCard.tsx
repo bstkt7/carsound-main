@@ -19,7 +19,7 @@ const PriceTagCard = ({ item, settings }: PriceTagCardProps) => {
       style={{ width: '60mm', height: '40mm' }}
     >
       {/* Name - from second column, bigger and black */}
-      <div className="flex-1 flex items-start min-h-0 overflow-hidden">
+      <div className="flex-1 flex items-start min-h-0 overflow-hidden z-10">
         <span
           className="text-black break-words w-full font-semibold"
           style={{ fontSize: `${calculatedNameSize}px`, lineHeight: 'normal' }}
