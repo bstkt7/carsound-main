@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 
 const SERVICES = [
   "Шумоизоляция",
-  "Сигнализация", 
+  "Сигнализация",
   "Магнитолы",
   "Усилители",
   "Сабвуферы",
-  "Акустика"
+  "Акустика",
 ];
 
 const BRAND_LOGOS = [
@@ -24,10 +24,10 @@ const BRAND_LOGOS = [
 const Index = () => {
   return (
     <div className="min-h-screen bg-[#ffcc00] overflow-hidden relative">
-      {/* Wave фон - без прозрачности */}
-      <div 
+      {/* Wave фон */}
+      <div
         className="absolute inset-0 z-0"
-        style={{ 
+        style={{
           backgroundImage: "url(/wave.svg)",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -35,93 +35,106 @@ const Index = () => {
         }}
       />
 
-      {/* Машина на фоне */}
+      {/* Машина */}
       <div className="absolute bottom-0 right-0 z-[1] hidden lg:block">
-        <img 
-          src="/car.png" 
-          alt="Car" 
-          className="w-[48rem] xl:w-[60rem] h-auto object-contain opacity-80"
+        <img
+          src="/car.png"
+          alt="Car"
+          className="w-[48rem] xl:w-[60rem] opacity-80"
         />
       </div>
 
-      {/* Hero секция */}
+      {/* HERO */}
       <section className="relative z-10 min-h-[92vh] flex flex-col">
-        <div className="container mx-auto px-6 lg:px-12 py-8 flex-1 flex flex-col">
-          {/* Верхняя строка: Лого слева, Кнопка по центру, Контакты справа */}
-          <div className="flex justify-between items-center mb-12">
-            {/* Лого */}
-            <img src="/logo.svg" alt="CarSound" className="h-20 lg:h-28 w-auto" />
-            
-            {/* Кнопка по центру */}
-            <a href="tel:89091797555">
-              <Button 
-                size="lg" 
-                className="bg-black text-white hover:bg-black/80 font-bold text-base lg:text-xl px-8 lg:px-16 py-5 lg:py-7 rounded-full transition-all hover:scale-105 shadow-xl"
+        <div className="container mx-auto px-5 lg:px-12 py-6 flex-1 flex flex-col">
+          {/* HEADER */}
+          <div className="flex justify-between items-center mb-8">
+            <img src="/logo.svg" alt="CarSound" className="h-16 lg:h-28" />
+
+            <a href="tel:89091797555" className="hidden lg:block">
+              <Button
+                size="lg"
+                className="bg-black text-white font-bold px-16 py-7 rounded-full hover:scale-105 transition"
               >
                 Позвонить
               </Button>
             </a>
 
-            {/* Контакты */}
-            <div className="flex flex-col gap-2 text-right">
-              <a 
-                href="tel:89091797555" 
-                className="flex items-center justify-end gap-2 text-black font-bold text-base lg:text-lg hover:opacity-60 transition-opacity"
+            <div className="hidden lg:flex flex-col text-right gap-2">
+              <a
+                href="tel:89091797555"
+                className="flex justify-end gap-2 font-bold"
               >
-                <Phone className="h-4 w-4 lg:h-5 lg:w-5" />
-                <span>8 (909) 179-75-55</span>
+                <Phone className="h-5 w-5" />
+                8 (909) 179-75-55
               </a>
-              <div className="flex items-center justify-end gap-2 text-black/80 font-medium text-sm lg:text-base">
-                <MapPin className="h-4 w-4 lg:h-5 lg:w-5" />
-                <span>г. Куртамыш, Ул. Октябрьская 34а</span>
+              <div className="flex justify-end gap-2 text-black/80">
+                <MapPin className="h-5 w-5" />
+                г. Куртамыш, Октябрьская 34а
               </div>
             </div>
           </div>
 
-          {/* Центральная часть - только услуги */}
-          <div className="flex-1 flex items-center justify-start">
-            <div className="hidden lg:flex flex-col gap-4">
-              {SERVICES.map((service, index) => (
-                <div 
-                  key={index} 
-                  className="text-black font-black text-2xl uppercase tracking-tight hover:opacity-70 transition-opacity"
-                  style={{ fontFamily: 'Montserrat, sans-serif' }}
+          {/* MOBILE HERO */}
+          <div className="lg:hidden text-center mt-4">
+            <h1 className="text-3xl font-black uppercase leading-tight">
+              Автозвук<br />и комфорт
+            </h1>
+            <p className="mt-3 text-black/80 font-medium">
+              Установка • Настройка • Гарантия
+            </p>
+          </div>
+
+          {/* SERVICES DESKTOP */}
+          <div className="hidden lg:flex flex-1 items-center">
+            <div className="flex flex-col gap-4">
+              {SERVICES.map((s) => (
+                <div
+                  key={s}
+                  className="text-2xl font-black uppercase hover:opacity-70"
                 >
-                  {service}
+                  {s}
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Услуги для мобильной версии */}
+          {/* SERVICES MOBILE */}
           <div className="lg:hidden grid grid-cols-2 gap-3 mt-8">
-            {SERVICES.map((service, index) => (
-              <div 
-                key={index} 
-                className="bg-black/5 backdrop-blur-sm rounded-xl py-3 px-4 text-center"
+            {SERVICES.map((s) => (
+              <div
+                key={s}
+                className="bg-black/10 rounded-2xl py-4 text-center font-black uppercase text-sm"
               >
-                <span 
-                  className="text-black font-black text-sm uppercase"
-                  style={{ fontFamily: 'Montserrat, sans-serif' }}
-                >
-                  {service}
-                </span>
+                {s}
               </div>
             ))}
+          </div>
+
+          {/* MOBILE CAR */}
+          <div className="lg:hidden mt-10">
+            <img
+              src="/car.png"
+              alt="Car"
+              className="w-full opacity-90"
+            />
           </div>
         </div>
       </section>
 
-      {/* Черная секция с брендами */}
-      <section className="bg-black py-5 lg:py-6 relative z-20">
+      {/* BRANDS */}
+      <section className="bg-black py-5 relative z-20">
         <div className="overflow-hidden">
           <div className="flex animate-marquee">
-            {[...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS].map((brand, index) => (
-              <div key={`${brand.name}-${index}`} className="mx-10 lg:mx-16 flex items-center justify-center flex-shrink-0">
-                <img 
-                  src={brand.file} 
-                  alt={brand.name} 
-                  className="h-10 lg:h-12 w-auto opacity-40 hover:opacity-100 transition-opacity brightness-0 invert"
+            {[...BRAND_LOGOS, ...BRAND_LOGOS].map((brand, i) => (
+              <div
+                key={i}
+                className="mx-12 flex items-center flex-shrink-0"
+              >
+                <img
+                  src={brand.file}
+                  alt={brand.name}
+                  className="h-10 opacity-40 brightness-0 invert hover:opacity-100 transition"
                 />
               </div>
             ))}
@@ -129,15 +142,23 @@ const Index = () => {
         </div>
       </section>
 
+      {/* FIXED MOBILE CALL BUTTON */}
+      <a
+        href="tel:89091797555"
+        className="lg:hidden fixed bottom-4 left-4 right-4 z-50"
+      >
+        <Button className="w-full bg-black text-white font-bold py-6 rounded-full shadow-2xl text-lg">
+          Позвонить
+        </Button>
+      </a>
+
       <style>{`
         @keyframes marquee {
           0% { transform: translateX(0); }
-          100% { transform: translateX(-33.333%); }
+          100% { transform: translateX(-50%); }
         }
-        
         .animate-marquee {
-          animation: marquee 30s linear infinite;
-          display: flex;
+          animation: marquee 25s linear infinite;
         }
       `}</style>
     </div>
